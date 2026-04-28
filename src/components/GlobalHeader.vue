@@ -27,6 +27,12 @@
               </ASpace>
               <template #overlay>
                 <a-menu>
+                  <a-menu-item>
+                    <router-link to="/my_space">
+                      <UserOutlined />
+                      我的空间
+                    </router-link>
+                  </a-menu-item>
                   <a-menu-item @click="doLogout">
                     <LogoutOutlined />
                     退出登录
@@ -45,7 +51,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, h, ref } from 'vue'
-import { HomeOutlined, LogoutOutlined } from '@ant-design/icons-vue'
+import { HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { MenuProps, message } from 'ant-design-vue'
 import { useLoginUserStore } from '../stores/user'
 const loginUserStore = useLoginUserStore()
@@ -59,21 +65,25 @@ const originItems = [
     title: '主页',
   },
   {
-    key: '/about',
-    label: '关于',
-    title: '关于',
-  },
-  {
     key: '/admin/userManange',
     label: '用户管理',
     title: '用户管理',
   },
   {
+    key: '/admin/pictureManage',
+    label: '图片管理',
+    title: '图片管理',
+  },
+  {
+    key: '/admin/spaceManage',
+    label: '空间管理',
+    title: '空间管理',
+  },
+  {
     key: '/add_picture',
     label: '创建图片',
     title: '创建图片',
-  }
-
+  },
 ]
 
 import { useRouter } from 'vue-router'
@@ -104,7 +114,6 @@ const doLogout = async () => {
   }
 }
 
-// 过滤菜单项
 const filterMenus = (menus = [] as MenuProps['items']) => {
   return menus?.filter((menu) => {
     if (menu.key.startsWith('/admin')) {

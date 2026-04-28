@@ -4,9 +4,12 @@
       <a-layout-header class="header">
         <GlobalHeader />
       </a-layout-header>
-      <a-layout-content class="content">
-        <router-view></router-view>
-      </a-layout-content>
+      <a-layout>
+        <GlobalSider class="sider" />
+        <a-layout-content class="content">
+          <router-view></router-view>
+        </a-layout-content>
+      </a-layout>
       <a-layout-footer class="footer"
         ><a href="https://github.com/xwq-image" target="_blank"
           >云图片系统 by ManngerDiao</a
@@ -18,7 +21,7 @@
 
 <script setup lang="ts">
 import GlobalHeader from '@/components/GlobalHeader.vue'
-
+import GlobalSider from '@/components/GlobalSider.vue'
 </script>
 
 <style scoped>
@@ -38,13 +41,24 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
 #baseLayout .content {
   background: linear-gradient(to right, #fefefe, #fff);
   margin-bottom: 28px;
-  padding: 20px;
+  padding: 28px;
 }
 
 #baseLayout .header {
+  margin-bottom: 1px;
   background: white;
-  margin-bottom: 16px;
   color: unset;
   padding-inline: 20px;
+}
+
+#baseLayout .sider {
+  background: #fff;
+  padding-top: 20px;
+  border-right: 0.5px solid #eee;
+}
+
+#baseLayout :deep(.ant-menu-root) {
+  border-bottom: none !important;
+  border-inline-end: none !important;
 }
 </style>
