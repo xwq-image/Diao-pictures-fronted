@@ -2,7 +2,7 @@ import axios  from 'axios'
 import { message } from 'ant-design-vue'
 
 const myAxios = axios.create({
-  baseURL: 'https://localhost:8023',
+  baseURL: 'http://localhost:8317',
   timeout: 10000,
   withCredentials: true
 })
@@ -36,6 +36,6 @@ myAxios.interceptors.response.use(
   }
 )
 
-
+export default myAxios
 
 

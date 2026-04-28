@@ -5,7 +5,7 @@ import { createPinia } from 'pinia'
 
 import anted from 'ant-design-vue';
 import 'ant-design-vue/dist/reset.css';
-
+import "@/access"
 import App from './App.vue'
 import router from './router'
 

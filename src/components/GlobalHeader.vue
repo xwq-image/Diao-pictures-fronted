@@ -1,6 +1,6 @@
 <template>
   <div id="globalHeader">
-    <a-row :wrap= "false">
+    <a-row :wrap="false">
       <a-col flex="200px">
         <router-link to="/">
           <div class="title-bar">
@@ -10,12 +10,30 @@
         </router-link>
       </a-col>
       <a-col flex="auto">
-        <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items"  @click="doMenuClick" />
+        <a-menu
+          v-model:selectedKeys="current"
+          mode="horizontal"
+          :items="items"
+          @click="doMenuClick"
+        />
       </a-col>
       <a-col flex="120px">
         <div class="user-login-status">
           <div v-if="loginUserStore.loginUser.id">
-            {{ loginUserStore.loginUser.userName ?? '无名' }}
+            <a-dropdown>
+              <ASpace>
+                <a-avatar :src="loginUserStore.loginUser.userAvatar" />
+                {{ loginUserStore.loginUser.userName ?? '无名' }}
+              </ASpace>
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item @click="doLogout">
+                    <LogoutOutlined />
+                    退出登录
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
           </div>
           <div v-else>
             <a-button type="primary" href="/user/login">登录</a-button>
@@ -26,14 +44,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { h, ref } from 'vue'
-import { HomeOutlined } from '@ant-design/icons-vue'
-import { MenuProps } from 'ant-design-vue'
-import {useLoginUserStore} from '../stores/user'
+import { computed, h, ref } from 'vue'
+import { HomeOutlined, LogoutOutlined } from '@ant-design/icons-vue'
+import { MenuProps, message } from 'ant-design-vue'
+import { useLoginUserStore } from '../stores/user'
 const loginUserStore = useLoginUserStore()
 
 const current = ref<string[]>([])
-const items = ref<MenuProps['items']>([
+const originItems = [
   {
     key: '/',
     icon: () => h(HomeOutlined),
@@ -46,22 +64,59 @@ const items = ref<MenuProps['items']>([
     title: '关于',
   },
   {
-    key: 'others',
-    label: h('a', { href: 'https://www.codefather.cn', target: '_blank' }, '编程导航'),
-    title: '编程导航',
+    key: '/admin/userManange',
+    label: '用户管理',
+    title: '用户管理',
   },
-]);
+  {
+    key: '/add_picture',
+    label: '创建图片',
+    title: '创建图片',
+  }
+
+]
 
 import { useRouter } from 'vue-router'
+import { userLogoutUsingPost } from '@/api/userController'
 const router = useRouter()
-const doMenuClick = ({ key}: { key: string }) => {
+const doMenuClick = ({ key }: { key: string }) => {
   router.push({
     path: key,
-  });
+  })
 }
-router.afterEach((to, from,next)=>{
+router.afterEach((to, from, next) => {
   current.value = [to.path]
 })
+
+const doLogout = async () => {
+  const res = await userLogoutUsingPost()
+  if (res.data.code === 0) {
+    loginUserStore.setLoginUser({
+      userName: '未登录',
+    })
+    message.success('退出登录成功')
+    router.push({
+      path: '/user/login',
+      replace: true,
+    })
+  } else {
+    message.error('退出登录失败' + res.data.message)
+  }
+}
+
+// 过滤菜单项
+const filterMenus = (menus = [] as MenuProps['items']) => {
+  return menus?.filter((menu) => {
+    if (menu.key.startsWith('/admin')) {
+      const loginUser = loginUserStore.loginUser
+      if (!loginUser || loginUser.userRole !== 'admin') {
+        return false
+      }
+    }
+    return true
+  })
+}
+const items = computed(() => filterMenus(originItems));
 </script>
 
 <style scoped>
