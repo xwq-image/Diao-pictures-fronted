@@ -40,7 +40,7 @@ import GlobalSider from '@/components/GlobalSider.vue'
 
 #baseLayout .content {
   background: linear-gradient(to right, #fefefe, #fff);
-  margin-bottom: 28px;
+  margin-bottom: 80px;
   padding: 28px;
 }
 

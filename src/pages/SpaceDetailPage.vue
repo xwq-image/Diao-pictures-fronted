@@ -7,6 +7,9 @@
         <a-button type="primary" :href="`/add_picture?spaceId=${id}`" target="_blank">
           + 创建图片
         </a-button>
+        <a-button :href="`/add_space?id=${id}`" target="_blank">
+          编辑空间
+        </a-button>
         <a-tooltip
           :title="`占用空间 ${formatSize(space.totalSize)} / ${formatSize(space.maxSize)}`"
         >
@@ -44,26 +47,6 @@ const props = defineProps<{
 }>()
 
 const space = ref<API.SpaceVO>({})
-
-const fetchSpaceDetail = async () => {
-  try {
-    const res = await getSpaceVoByIdUsingGet({
-      id: props.id as any,
-    })
-    if (res.data.code === 0 && res.data.data) {
-      space.value = res.data.data
-    } else {
-      message.error('获取空间详情失败，' + res.data.message)
-    }
-  } catch (e: any) {
-    message.error('获取空间详情失败：' + e.message)
-  }
-}
-
-onMounted(() => {
-  fetchSpaceDetail()
-})
-
 const dataList = ref([])
 const total = ref(0)
 const loading = ref(true)
@@ -81,6 +64,21 @@ const onPageChange = (page: number, pageSize: number) => {
   fetchData()
 }
 
+const fetchSpaceDetail = async () => {
+  try {
+    const res = await getSpaceVoByIdUsingGet({
+      id: props.id as any,
+    })
+    if (res.data.code === 0 && res.data.data) {
+      space.value = res.data.data
+    } else {
+      message.error('获取空间详情失败，' + res.data.message)
+    }
+  } catch (e: any) {
+    message.error('获取空间详情失败：' + e.message)
+  }
+}
+
 const fetchData = async () => {
   loading.value = true
   const params: any = {
@@ -88,7 +86,7 @@ const fetchData = async () => {
     ...searchParams,
   }
   const res = await listPictureVoByPageUsingPost(params)
-  if (res.data.data) {
+  if (res.data.code === 0 && res.data.data) {
     dataList.value = res.data.data.records ?? []
     total.value = res.data.data.total ?? 0
   } else {
@@ -98,6 +96,7 @@ const fetchData = async () => {
 }
 
 onMounted(() => {
+  fetchSpaceDetail()
   fetchData()
 })
 </script>

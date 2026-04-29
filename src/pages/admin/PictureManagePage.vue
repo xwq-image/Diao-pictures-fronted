@@ -48,19 +48,19 @@
         <template v-if="column.dataIndex === 'url'">
           <a-image :src="record.url" :width="120" />
         </template>
-        <template v-if="column.dataIndex === 'tags'">
+        <template v-else-if="column.dataIndex === 'tags'">
           <a-space wrap>
-            <a-tag v-for="tag in JSON.parse(record.tags || '[]')" :key="tag">{{ tag }}</a-tag>
+            <a-tag v-for="tag in safeParseTags(record.tags)" :key="tag">{{ tag }}</a-tag>
           </a-space>
         </template>
-        <template v-if="column.dataIndex === 'picInfo'">
+        <template v-else-if="column.dataIndex === 'picInfo'">
           <div>格式：{{ record.picFormat }}</div>
           <div>宽度：{{ record.picWidth }}</div>
           <div>高度：{{ record.picHeight }}</div>
           <div>宽高比：{{ record.picScale }}</div>
-          <div>大小：{{ (record.picSize / 1024).toFixed(2) }}KB</div>
+          <div>大小：{{ ((record.picSize ?? 0) / 1024).toFixed(2) }}KB</div>
         </template>
-        <template v-if="column.dataIndex === 'reviewMessage'">
+        <template v-else-if="column.dataIndex === 'reviewMessage'">
           <div>审核状态：{{ PIC_REVIEW_STATUS_MAP[record.reviewStatus] }}</div>
           <div v-if="record.reviewMessage">审核信息：{{ record.reviewMessage }}</div>
           <div v-if="record.reviewerId">审核人：{{ record.reviewerId }}</div>
@@ -106,6 +106,14 @@ import { message } from 'ant-design-vue'
 import { listPictureByPageUsingPost, deletePictureUsingPost, doPictureReviewUsingPost } from '@/api/pictureController'
 import { PIC_REVIEW_STATUS_ENUM, PIC_REVIEW_STATUS_MAP, PIC_REVIEW_STATUS_OPTIONS } from '@/constants/picture'
 
+const safeParseTags = (tags: string | undefined): string[] => {
+  try {
+    return JSON.parse(tags || '[]')
+  } catch {
+    return []
+  }
+}
+
 const columns = [
   { title: 'id', dataIndex: 'id', width: 80 },
   { title: '图片', dataIndex: 'url' },
@@ -146,7 +154,7 @@ const fetchData = async () => {
     ...searchParams,
     nullSpaceId: true,
   })
-  if (res.data.data) {
+  if (res.data.code === 0 && res.data.data) {
     dataList.value = res.data.data.records ?? []
     total.value = res.data.data.total ?? 0
   } else {

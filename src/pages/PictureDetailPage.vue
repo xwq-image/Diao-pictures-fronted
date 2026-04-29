@@ -1,6 +1,6 @@
 <template>
   <div id="pictureDetailPage">
-    <a-row :gutter="[16, 16]">
+    <a-row v-if="picture.id" :gutter="[16, 16]">
       <!-- 图片展示区 -->
       <a-col :sm="24" :md="16" :xl="18">
         <a-card title="图片预览">

@@ -21,10 +21,10 @@
         <div class="user-login-status">
           <div v-if="loginUserStore.loginUser.id">
             <a-dropdown>
-              <ASpace>
+              <a-space>
                 <a-avatar :src="loginUserStore.loginUser.userAvatar" />
                 {{ loginUserStore.loginUser.userName ?? '无名' }}
-              </ASpace>
+              </a-space>
               <template #overlay>
                 <a-menu>
                   <a-menu-item>
@@ -42,7 +42,7 @@
             </a-dropdown>
           </div>
           <div v-else>
-            <a-button type="primary" href="/user/login">登录</a-button>
+            <a-button type="primary" @click="router.push('/user/login')">登录</a-button>
           </div>
         </div>
       </a-col>
@@ -94,7 +94,7 @@ const doMenuClick = ({ key }: { key: string }) => {
     path: key,
   })
 }
-router.afterEach((to, from, next) => {
+router.afterEach((to) => {
   current.value = [to.path]
 })
 

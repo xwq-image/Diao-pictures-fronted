@@ -20,7 +20,7 @@ import { ref } from 'vue'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import type { UploadProps } from 'ant-design-vue'
 import { message } from 'ant-design-vue'
-import { uploadPictureUsingPost } from '@/api/pictureController.ts'
+import { uploadPictureUsingPost } from '@/api/pictureController'
 
 interface Props {
   picture?: API.PictureVO
@@ -89,12 +89,12 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
   max-height: 480px;
 }
 
-.ant-upload-select-picture-card i {
+.picture-upload :deep(.ant-upload-select-picture-card i) {
   font-size: 32px;
   color: #999;
 }
 
-.ant-upload-select-picture-card .ant-upload-text {
+.picture-upload :deep(.ant-upload-select-picture-card .ant-upload-text) {
   margin-top: 8px;
   color: #666;
 }
