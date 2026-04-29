@@ -64,9 +64,9 @@ const loading = ref<boolean>(false)
  */
 const beforeUpload = (file: UploadProps['fileList'][number]) => {
   // 校验图片格式
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp'
   if (!isJpgOrPng) {
-    message.error('不支持上传该格式的图片，推荐 jpg 或 png')
+    message.error('不支持上传该格式的图片，推荐 jpg、png 或 webp')
   }
   // 校验图片大小
   const isLt2M = file.size / 1024 / 1024 < 2

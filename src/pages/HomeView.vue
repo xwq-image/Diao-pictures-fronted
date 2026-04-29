@@ -118,4 +118,13 @@ onMounted(() => {
   max-width: 480px;
   margin: 0 auto 16px;
 }
+
+#homePage .tag-bar {
+  margin-bottom: 24px;
+}
+
+#homePage .tag-bar :deep(.ant-checkable-tag) {
+  font-size: 14px;
+  padding: 4px 12px;
+}
 </style>

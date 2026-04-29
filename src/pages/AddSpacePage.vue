@@ -27,7 +27,7 @@
         * 目前仅支持开通普通版，如需升级空间，请联系管理员。
       </a-typography-paragraph>
       <a-typography-paragraph v-for="spaceLevel in spaceLevelList" :key="spaceLevel">
-        {{ SPACE_LEVEL_MAP[spaceLevel.level] }}： 大小 {{ formatSize(spaceLevel.maxSize) }}， 数量
+        {{ SPACE_LEVEL_MAP[spaceLevel.value] }}： 大小 {{ formatSize(spaceLevel.maxSize) }}， 数量
         {{ spaceLevel.maxCount }}
       </a-typography-paragraph>
     </a-card>
@@ -40,12 +40,16 @@ import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
   addSpaceUsingPost,
+  editSpaceUsingPost,
   updateSpaceUsingPost,
   getSpaceVoByIdUsingGet,
   listSpaceLevelUsingGet,
 } from '@/api/spaceController'
+import { useLoginUserStore } from '@/stores/user'
 import { SPACE_LEVEL_ENUM, SPACE_LEVEL_MAP, SPACE_LEVEL_OPTIONS } from '@/constants/space'
 import { formatSize } from '@/utils'
+
+const loginUserStore = useLoginUserStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -63,10 +67,18 @@ const handleSubmit = async (values: any) => {
   loading.value = true
   let res
   if (spaceId) {
-    res = await updateSpaceUsingPost({
-      id: spaceId,
-      ...formData,
-    })
+    const isAdmin = loginUserStore.loginUser.userRole === 'admin'
+    if (isAdmin) {
+      res = await updateSpaceUsingPost({
+        id: spaceId,
+        ...formData,
+      })
+    } else {
+      res = await editSpaceUsingPost({
+        id: spaceId,
+        ...formData,
+      })
+    }
   } else {
     res = await addSpaceUsingPost({
       ...formData,

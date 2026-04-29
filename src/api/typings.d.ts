@@ -310,11 +310,16 @@ declare namespace API {
     spaceName?: string
   }
 
+  type SpaceEditRequest = {
+    id?: number
+    spaceName?: string
+  }
+
   type SpaceLevel = {
-    level?: number
+    text?: string
     maxCount?: number
     maxSize?: number
-    text?: string
+    value?: number
   }
 
   type SpaceQueryRequest = {
@@ -330,6 +335,8 @@ declare namespace API {
 
   type SpaceUpdateRequest = {
     id?: number
+    maxCount?: number
+    maxSize?: number
     spaceLevel?: number
     spaceName?: string
   }

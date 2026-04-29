@@ -7,7 +7,7 @@ export async function deletePictureUsingPost(
   body: API.DeleteRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponseBoolean_>('/api/delete', {
+  return request<API.BaseResponseBoolean_>('/api/picture/delete', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ export async function doPictureReviewUsingPost(
   body: API.PictureReviewRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponseBoolean_>('/api/review', {
+  return request<API.BaseResponseBoolean_>('/api/picture/review', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export async function editPictureUsingPost(
   body: API.PictureEditRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponseBoolean_>('/api/edit', {
+  return request<API.BaseResponseBoolean_>('/api/picture/edit', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export async function getPictureByIdUsingGet(
   params: API.getPictureByIdUsingGETParams,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponsePicture_>('/api/get', {
+  return request<API.BaseResponsePicture_>('/api/picture/get', {
     method: 'GET',
     params: {
       ...params,
@@ -66,7 +66,7 @@ export async function getPictureVoByIdUsingGet(
   params: API.getPictureVOByIdUsingGETParams,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponsePictureVO_>('/api/get/vo', {
+  return request<API.BaseResponsePictureVO_>('/api/picture/get/vo', {
     method: 'GET',
     params: {
       ...params,
@@ -80,7 +80,7 @@ export async function listPictureByPageUsingPost(
   body: API.PictureQueryRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponsePagePicture_>('/api/list/page', {
+  return request<API.BaseResponsePagePicture_>('/api/picture/list/page', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export async function listPictureVoByPageUsingPost(
   body: API.PictureQueryRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponsePagePictureVO_>('/api/list/page/vo', {
+  return request<API.BaseResponsePagePictureVO_>('/api/picture/list/page/vo', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export async function listPictureVoByPageUsingPost(
 
 /** listPictureTagCategory GET /api/tag_category */
 export async function listPictureTagCategoryUsingGet(options?: { [key: string]: any }) {
-  return request<API.BaseResponsePictureTagCategory_>('/api/tag_category', {
+  return request<API.BaseResponsePictureTagCategory_>('/api/picture/tag_category', {
     method: 'GET',
     ...(options || {}),
   })
@@ -118,7 +118,7 @@ export async function updatePictureUsingPost(
   body: API.PictureUpdateRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponseBoolean_>('/api/update', {
+  return request<API.BaseResponseBoolean_>('/api/picture/update', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ export async function uploadPictureUsingPost(
     }
   })
 
-  return request<API.BaseResponsePictureVO_>('/api/upload', {
+  return request<API.BaseResponsePictureVO_>('/api/picture/upload', {
     method: 'POST',
     params: {
       ...params,
@@ -173,7 +173,7 @@ export async function uploadPictureByUrlUsingPost(
   body: API.PictureUploadRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponsePictureVO_>('/api/upload/url', {
+  return request<API.BaseResponsePictureVO_>('/api/picture/upload/url', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ export async function uploadPictureByBatchUsingPost(
   body: API.PictureUploadByBatchRequest,
   options?: { [key: string]: any }
 ) {
-  return request<API.BaseResponseInteger_>('/api/upload/batch', {
+  return request<API.BaseResponseInteger_>('/api/picture/upload/batch', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

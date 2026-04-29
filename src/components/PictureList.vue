@@ -99,5 +99,10 @@ const doDelete = async (picture: API.PictureVO, e: Event) => {
 
 <style scoped>
 .picture-list {
+  margin-top: 8px;
+}
+
+.picture-list :deep(.ant-card-meta) {
+  margin-top: 8px;
 }
 </style>

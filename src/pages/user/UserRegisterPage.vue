@@ -1,6 +1,6 @@
 <template>
   <div id="userLoginPage">
-    <h2 class="title">Diao-pictures - 用户登录</h2>
+    <h2 class="title">Diao-pictures - 用户注册</h2>
     <div class="desc">企业级智能协同云图库</div>
     <a-form :model="formState" name="basic" autocomplete="off" @finish="handleRegister">
       <a-form-item name="userAccount" :rules="[{ required: true, message: '请输入账号' }]">
@@ -18,18 +18,18 @@
       <a-form-item
         name="checkPassword"
         :rules="[
-          { required: true, message: '请输入密码' },
-          { min: 8, message: '密码不能小于' },
+          { required: true, message: '请确认密码' },
+          { min: 8, message: '密码不能小于 8 位' },
         ]"
       >
-        <a-input-password v-model:value="formState.userPassword" placeholder="请输入密码" />
+        <a-input-password v-model:value="formState.checkPassword" placeholder="请确认密码" />
       </a-form-item>
       <div class="tips">
         已有账号？
         <RouterLink to="/user/login">去登录</RouterLink>
       </div>
       <a-form-item>
-        <a-button type="primary" html-type="submit" style="width: 100%">登录</a-button>
+        <a-button type="primary" html-type="submit" style="width: 100%">注册</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { userLoginUsingPost, userRegisterUsingPost } from '@/api/userController'
+import { userRegisterUsingPost } from '@/api/userController'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/user'
 import { message } from 'ant-design-vue'
